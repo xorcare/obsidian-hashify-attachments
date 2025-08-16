@@ -1,0 +1,36 @@
+extends: relaxed
+
+ignore:
+  - "node_modules/"
+
+rules:
+  line-length:
+    max: 100
+
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+
+  trailing-spaces:
+    level: warning
+
+  empty-lines:
+    max: 1
+
+  document-start:
+    present: false
+
+  key-duplicates: enable
+
+  truthy:
+    allowed-values: ["yes", "no", "on", "off", "true", "false"]
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+
+  comments:
+    min-spaces-from-content: 1
+
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
