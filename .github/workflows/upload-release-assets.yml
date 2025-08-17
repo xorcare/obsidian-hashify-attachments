@@ -6,6 +6,9 @@ on:
 permissions:
   contents: write
 
+env:
+  PLUGIN_NAME: obsidian-hashify-attachments
+
 jobs:
   upload-assets:
     runs-on: ubuntu-latest
@@ -24,6 +27,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Build plugin archive
+        run: |
+          mkdir '${{ env.PLUGIN_NAME }}'
+          cp main.js manifest.json '${{ env.PLUGIN_NAME }}'
+          zip -r '${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip' '${{ env.PLUGIN_NAME }}'
+
       - name: Check mandatory files
         run: |
           if [ ! -f "manifest.json" ]; then
@@ -34,9 +43,16 @@ jobs:
             echo "Missing main.js"
             exit 1
           fi
+          if [ ! -f "${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip" ]; then
+            echo "Missing ${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip"
+            exit 1
+          fi
 
       - name: Upload assets via gh cli
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release upload ${{ github.event.release.tag_name }} main.js manifest.json --clobber
+        run: >
+          gh release upload ${{ github.event.release.tag_name }} --clobber
+          '${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip'
+          main.js
+          manifest.json
