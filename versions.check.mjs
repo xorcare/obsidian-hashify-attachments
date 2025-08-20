@@ -11,7 +11,7 @@ import console from 'node:console';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const files = ['package.json', 'manifest.json', 'versions.json'];
+const files = ['package.json', 'manifest.json', 'versions.json', 'package-lock.json'];
 
 async function fileExists(filePath) {
   try {
@@ -81,6 +81,34 @@ async function main() {
     process.exit(1);
   } else {
     console.log(`✅ versions.json contains {"${manifest.version}": "${minAppVersion}"}`);
+  }
+
+  // 6. Read package-lock.json
+  const lockRaw = await fs.readFile(path.join(__dirname, 'package-lock.json'), 'utf-8');
+  const lock = JSON.parse(lockRaw);
+
+  // 6.1 check top-level version field
+  if (lock.version !== packageVersion) {
+    console.error(
+        `❌ package-lock.json "version" (${lock.version}) does not match package.json (${packageVersion})`,
+    );
+    process.exit(1);
+  } else {
+    console.log('✅ package-lock.json "version" matches package.json');
+  }
+
+  // 6.2 check packages[""].version field
+  if (
+      !lock.packages ||
+      !lock.packages[''] ||
+      lock.packages[''].version !== packageVersion
+  ) {
+    console.error(
+        `❌ package-lock.json packages[""].version (${lock.packages?.['']?.version}) does not match package.json (${packageVersion})`,
+    );
+    process.exit(1);
+  } else {
+    console.log('✅ package-lock.json packages[""].version matches package.json');
   }
 
   console.log('🎉 All checks passed successfully!');

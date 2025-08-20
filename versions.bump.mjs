@@ -66,6 +66,30 @@ async function main() {
       `✅ Updated versions.json: {"${packageVersion}": "${manifest.minAppVersion}"}`
   );
 
+  // 4. Update package-lock.json (if exists)
+  const lockPath = path.join(__dirname, 'package-lock.json');
+  if (await fileExists(lockPath)) {
+    const lockRaw = await fs.readFile(lockPath, 'utf-8');
+    const lock = JSON.parse(lockRaw);
+
+    // top-level version field
+    lock.version = packageVersion;
+
+    // nested packages[""] version
+    if (!lock.packages) {
+      lock.packages = {};
+    }
+    if (!lock.packages['']) {
+      lock.packages[''] = {};
+    }
+    lock.packages[''].version = packageVersion;
+
+    await fs.writeFile(lockPath, JSON.stringify(lock, null, 2) + '\n', 'utf-8');
+    console.log('✅ Updated package-lock.json (both "version" and packages[""].version)');
+  } else {
+    console.log('⚠️ package-lock.json not found, skipping update');
+  }
+
   console.log('🎉 All bumps applied successfully!');
 }
 
