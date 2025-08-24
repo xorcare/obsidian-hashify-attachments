@@ -17,8 +17,8 @@ export class HashifyController {
     this.dispatcher = dispatcher;
   }
 
-  async Hashify(folderName: string) {
-    const files = await this.repo.LoadFiles(folderName);
+  async Hashify(fileOrFolderPath: string) {
+    const files = await this.repo.LoadFiles(fileOrFolderPath);
     const pairs: Pair[] = [];
 
     for (const file of files) {

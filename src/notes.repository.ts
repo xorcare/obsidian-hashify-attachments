@@ -8,7 +8,7 @@ import {File} from './file';
 import {HashKind} from './hash.kind';
 
 export interface NotesRepository {
-  LoadFiles(folderName: string): Promise<File[]>;
+  LoadFiles(fileOrFolderPath: string): Promise<File[]>;
 }
 
 export class VaultNotesRepository implements NotesRepository {
@@ -20,16 +20,25 @@ export class VaultNotesRepository implements NotesRepository {
     this.hashKind = hashKind;
   }
 
-  async LoadFiles(folderName: string): Promise<File[]> {
+  async LoadFiles(fileOrFolderPath: string): Promise<File[]> {
     const result: File[] = [];
-    const folder = this.vault.getAbstractFileByPath(folderName);
-    if (!(folder instanceof TFolder)) return [];
-    const files = this.collectFiles(folder);
-    for (const f of files) {
-      const hash = await this.computeHash(f, this.hashKind);
-      const hash512 = await this.computeHash(f, HashKind.sha512);
-      result.push(new File(f.path, hash, this.hashKind, hash512));
+    const abstractFile = this.vault.getAbstractFileByPath(fileOrFolderPath);
+
+    if (!abstractFile) return [];
+
+    if (abstractFile instanceof TFolder) {
+      const files = this.collectFiles(abstractFile);
+      for (const f of files) {
+        const hash = await this.computeHash(f, this.hashKind);
+        const hash512 = await this.computeHash(f, HashKind.sha512);
+        result.push(new File(f.path, hash, this.hashKind, hash512));
+      }
+    } else if (abstractFile instanceof TFile) {
+      const hash = await this.computeHash(abstractFile, this.hashKind);
+      const hash512 = await this.computeHash(abstractFile, HashKind.sha512);
+      result.push(new File(abstractFile.path, hash, this.hashKind, hash512));
     }
+
     return result;
   }
 

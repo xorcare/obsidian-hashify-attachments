@@ -119,6 +119,43 @@ export default class HashifyFilesPlugin extends Plugin {
           }
         });
 
+    this.registerEvent(
+        this.app.workspace.on('file-menu', (menu, file) => {
+          menu.addSeparator();
+          menu.addItem((item) => {
+            item.setIcon('plug').setDisabled(true).setTitle(this.manifest?.name ?? 'Hashify');
+          });
+
+          if (file instanceof TFolder) {
+            menu.addItem((item) => {
+              const title = translate(this.locale, 'command.rename-folder.name');
+              item.setTitle(title).
+                  setIcon('folder').
+                  onClick(async () => {
+                    try {
+                      await this.runHashify(file.path);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  });
+            });
+          } else {
+            menu.addItem((item) => {
+              const title = translate(this.locale, 'command.rename-file.name');
+              item.setTitle(title).
+                  setIcon('document').
+                  onClick(async () => {
+                    try {
+                      await this.runHashify(file.path);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  });
+            });
+          }
+        }),
+    );
+
     this.addSettingTab(new HashifySettingTab(this.app, this));
   }
 
@@ -141,7 +178,7 @@ export default class HashifyFilesPlugin extends Plugin {
     });
   }
 
-  private async runHashify(folderPath: string) {
+  private async runHashify(fileOrFolderPath: string) {
     const repo = new VaultNotesRepository(
         this.app.vault,
         HashKind[this.settings.hashAlgo as keyof typeof HashKind],
@@ -152,6 +189,6 @@ export default class HashifyFilesPlugin extends Plugin {
     dispatcher.RegisterHandler(CommandKind.notify,
         new NotifyCommandHandler(this.locale, translate));
 
-    await new HashifyController(repo, dispatcher).Hashify(normalizePath(folderPath));
+    await new HashifyController(repo, dispatcher).Hashify(normalizePath(fileOrFolderPath));
   }
 }

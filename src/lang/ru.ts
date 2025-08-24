@@ -9,6 +9,8 @@ export default {
   'settings.hash_algo_desc': 'Выберите алгоритм хеширования для переименования файлов.',
   'command.rename-attached-files.name': 'Переименовать все вложения в каталоге по вашему выбору',
   'command.rename-all-files.name': 'Переименовать все вложения в хранилище',
+  'command.rename-folder.name': 'Заменить имена всех файлов в папке хешем файла в формате Hex',
+  'command.rename-file.name': 'Заменить имя файла хешем файла в формате Hex',
   'error.noRootFound': 'Корневая папка не найдена.',
   'error.noGetRoot': 'Метод Vault.getRoot() недоступен.',
   'error.hash_mismatch.title': 'Ошибка: Нельзя перезаписать файл, содержимое различается!',
