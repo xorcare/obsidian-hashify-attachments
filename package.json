@@ -3,7 +3,7 @@
   "author": "Vasiliy Vasilyuk",
   "description": "Obsidian plugin: automatically renames attachments in your Obsidian vault using a content-based hash and updates internal links.",
   "license": "AGPL-3.0-only",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "scripts": {
     "build": "node esbuild.config.mjs",
     "prepare": "npm run build",

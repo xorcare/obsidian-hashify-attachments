@@ -1,7 +1,7 @@
 {
   "id": "obsidian-hashify-attachments",
   "name": "Hashify Attachments",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "minAppVersion": "1.1.1",
   "description": "Automatically renames attachments in your Obsidian vault using a content-based hash and updates internal links.",
   "author": "Vasiliy Vasilyuk",
