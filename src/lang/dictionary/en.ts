@@ -14,8 +14,8 @@ export default {
   'error.noRootFound': 'Root folder not found.',
   'error.noGetRoot': 'Vault.getRoot() is not available.',
   'error.hash_mismatch.title': 'Error: Cannot overwrite file because contents differ!',
-  'error.hash_mismatch.body': 'Source file: {source}\nTarget file: {target}',
-  'error.hash_mismatch.console': 'Hashify Attachments: Cannot overwrite file due to different content hashes.\nSource: {source}\nTarget: {target}\nSource SHA-512: {source_hash}\nTarget SHA-512: {target_hash}',
+  'error.hash_mismatch.body': 'Source file: {{source}}\nTarget file: {{target}}',
+  'error.hash_mismatch.console': 'Hashify Attachments: Cannot overwrite file due to different content hashes.\nSource: {{source}}\nTarget: {{target}}\nSource SHA-512: {{source_hash}}\nTarget SHA-512: {{target_hash}}',
   'notice.renamedAttached': 'Attached files renamed',
   'notice.renamedAll': 'All files renamed',
 };

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import en from './en';
-import ru from './ru';
+import en from './dictionary/en';
+import ru from './dictionary/ru';
 
 type Dict = Record<string, string>;
 
 function placeholders(s: string): string[] {
-  const m = s.match(/\{(\w+)\}/g) ?? [];
+  const m = s.match(/\{\{([\w.]+)\}\}/g) ?? [];
   return m.map(x => x.slice(1, -1)).sort();
 }
 

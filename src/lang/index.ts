@@ -3,22 +3,41 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import en from './en';
-import ru from './ru';
-// можно добавить больше языков по мере необходимости
+import en from './dictionary/en';
+import ru from './dictionary/ru';
 
-// Все переводы в одном объекте
-const translations: Record<string, Record<string, string>> = {
-  en,
-  ru,
-};
+const translations: Record<string, Record<string, string>> = { en, ru };
+
+// Simple {{var}} interpolation with default behavior (no escaping by default)
+function interpolate(template: string, values?: Record<string, unknown>): string {
+  if (!values) return template;
+  return template.replace(/{{\s*([\w.[\]]+)\s*}}/g, (_, path: string) => {
+    const parts = path.split('.');
+    let cur: unknown = values; // was: any
+    for (const p of parts) {
+      if (cur && typeof cur === 'object' && p in (cur as Record<string, unknown>)) {
+        cur = (cur as Record<string, unknown>)[p as keyof typeof cur];
+      } else {
+        cur = undefined;
+        break;
+      }
+    }
+    const val = cur ?? '';
+    return String(val);
+  });
+}
 
 /**
  * Get translation by language code and key
  * @param language - short language code, e.g. 'en', 'ru'
  * @param key - translation key
+ * @param values - interpolation values for {{placeholders}}
  * @returns localized string or key itself if not found
  */
-export function translate(language: string, key: string): string {
-  return translations[language]?.[key] || translations['en']?.[key] || key;
+export function translate(language: string, key: string, values?: Record<string, unknown>): string {
+  const msg =
+      translations[language]?.[key] ||
+      translations['en']?.[key] ||
+      key; // Fallback to en and then to the key itself
+  return interpolate(msg, values); // Insert interpolated values
 }
