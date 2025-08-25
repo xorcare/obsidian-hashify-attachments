@@ -3,9 +3,8 @@ export default {
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'js', 'json'],
   testMatch: [
-    '**/tests/**/*.test.ts',
-    '**/tests/**/*.spec.ts',
-    '**/__tests__/**/*.ts',
+    '**/*.test.ts',
+    '**/*.spec.ts',
   ],
   roots: ['<rootDir>/tests', '<rootDir>/src'],
   coveragePathIgnorePatterns: [
