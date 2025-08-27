@@ -18,8 +18,6 @@ cryptographic hash (such as SHA-256 or SHA-512) instead of their original file n
 The plugin does **not** rename your notes (`.md` files).
 It helps keep attachments organized and unique—even if many files share the same original name.
 
----
-
 ## Usage
 
 1. **Choose hash algorithm:**  
@@ -31,8 +29,6 @@ It helps keep attachments organized and unique—even if many files share the sa
 3. **Internal links update:**  
    After renaming, all internal links in your markdown notes to these files are updated automatically.
 
----
-
 ## Supported Hash Algorithms
 
 - SHA-1
@@ -40,15 +36,11 @@ It helps keep attachments organized and unique—even if many files share the sa
 - SHA-384
 - SHA-512
 
----
-
 ## How it works
 
 - The plugin replaces each file's name with a hash based on the file's actual contents.
 - If there are existing files with the same hash name, they are overwritten.
 - All links to the affected attachments in your notes are adjusted to point to the new hashed filenames.
-
----
 
 ## Installation
 
@@ -56,4 +48,4 @@ It helps keep attachments organized and unique—even if many files share the sa
 2. Enable **Hashify Attachments** in Obsidian's Community Plugins tab.
 3. Configure settings as you wish and enjoy automatic attachment organization!
 
----
+
