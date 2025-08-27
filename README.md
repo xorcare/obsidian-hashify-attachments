@@ -1,7 +1,7 @@
 # Hashify Attachments for Obsidian
 
 [![plugin](https://img.shields.io/github/v/release/xorcare/obsidian-hashify-attachments?label=plugin&display_name=tag&logo=obsidian&color=purple&logoColor=violet)](https://github.com/xorcare/obsidian-hashify-attachments/releases/latest)
-[![downloads](https://img.shields.io/github/downloads/xorcare/obsidian-hashify-attachments/total?logo=github)](https://github.com/xorcare/obsidian-hashify-attachments)
+[![downloads](https://img.shields.io/github/downloads/xorcare/obsidian-hashify-attachments/total?logo=github)](https://github.com/xorcare/obsidian-hashify-attachments/releases/latest)
 [![Telegram Channel](https://img.shields.io/badge/Telegram-Channel-blue.svg?logo=telegram)](https://t.me/obsidian_hashify_attachments)
 
 ## Description
