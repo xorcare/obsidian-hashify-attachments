@@ -6,7 +6,7 @@ export default {
     '**/*.test.ts',
     '**/*.spec.ts',
   ],
-  roots: ['<rootDir>/tests', '<rootDir>/src'],
+  roots: ['<rootDir>/src'],
   coveragePathIgnorePatterns: [
     '/node_modules/',
   ],
