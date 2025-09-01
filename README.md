@@ -9,13 +9,6 @@
 This Obsidian plugin automatically renames all attached (non-markdown) files in your vault using their unique
 cryptographic hash (such as SHA-256 or SHA-512) instead of their original file names.
 
-## Thank you for your support
-
-If you found this project useful, please support it by giving it a star
-on [GitHub](https://github.com/xorcare/obsidian-hashify-attachments).
-This will help other users discover the project and will motivate me to continue developing it!
-Thank you for your support!
-
 **Benefits:**
 
 - Ensures each attachment has a unique, content‑based name.
@@ -24,6 +17,13 @@ Thank you for your support!
 
 The plugin does **not** rename your notes (`.md` files).
 It helps keep attachments organized and unique—even if many files share the same original name.
+
+## Thank you for your support
+
+If you found this project useful, please support it by giving it a star
+on [GitHub](https://github.com/xorcare/obsidian-hashify-attachments).
+This will help other users discover the project and will motivate me to continue developing it!
+Thank you for your support!
 
 ## Usage
 
