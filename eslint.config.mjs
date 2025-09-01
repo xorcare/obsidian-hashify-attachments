@@ -3,20 +3,11 @@ import tseslint from 'typescript-eslint';
 import licenseHeader from 'eslint-plugin-license-header';
 
 export default [
-  {
-    files: ['**/*.{js,mjs,cjs,ts}'],
-    linterOptions: {
-      reportUnusedDisableDirectives: 'error',
-    },
-    plugins: {
-      'license-header': licenseHeader,
-    },
-  },
-
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 
   {
+    files: ['**/*.{js,mjs,cjs,ts}'],
     rules: {
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
