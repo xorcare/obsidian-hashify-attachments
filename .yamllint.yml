@@ -9,7 +9,7 @@ rules:
 
   indentation:
     spaces: 2
-    indent-sequences: consistent
+    indent-sequences: true
 
   trailing-spaces:
     level: warning
