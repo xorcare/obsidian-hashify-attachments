@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {Convert} from './convert';
-import {NotesRepository} from './notes.repository';
-import {Pair} from './pair';
-import {CommandDispatcher} from './command.dispatcher';
+import { Convert } from "./convert";
+import { NotesRepository } from "./notes.repository";
+import { Pair } from "./pair";
+import { CommandDispatcher } from "./command.dispatcher";
 
 export class HashifyController {
   private repo: NotesRepository;
@@ -22,7 +22,7 @@ export class HashifyController {
     const pairs: Pair[] = [];
 
     for (const file of files) {
-      const target = files.find(f => f.Path() === file.TargetPath());
+      const target = files.find((f) => f.Path() === file.TargetPath());
       pairs.push(new Pair(file, target));
     }
 

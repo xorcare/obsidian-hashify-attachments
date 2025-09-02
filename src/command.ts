@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {CommandKind} from './command.kind';
-import {File} from './file';
+import { CommandKind } from "./command.kind";
+import { File } from "./file";
 
 export class Command {
   private readonly kind: CommandKind;

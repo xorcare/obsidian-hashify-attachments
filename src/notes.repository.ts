@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {TFile, TFolder, Vault} from 'obsidian';
-import {File} from './file';
-import {HashKind} from './hash.kind';
+import { TFile, TFolder, Vault } from "obsidian";
+import { File } from "./file";
+import { HashKind } from "./hash.kind";
 
 export interface NotesRepository {
   LoadFiles(fileOrFolderPath: string): Promise<File[]>;
@@ -53,15 +53,15 @@ export class VaultNotesRepository implements NotesRepository {
 
   private async computeHash(file: TFile, kind: HashKind): Promise<string> {
     const algoMap: Record<HashKind, string> = {
-      [HashKind.sha1]: 'SHA-1',
-      [HashKind.sha256]: 'SHA-256',
-      [HashKind.sha384]: 'SHA-384',
-      [HashKind.sha512]: 'SHA-512',
+      [HashKind.sha1]: "SHA-1",
+      [HashKind.sha256]: "SHA-256",
+      [HashKind.sha384]: "SHA-384",
+      [HashKind.sha512]: "SHA-512",
     };
     const buf = await this.vault.readBinary(file);
     const hashBuf = await crypto.subtle.digest(algoMap[kind], buf);
-    return Array.from(new Uint8Array(hashBuf)).
-        map(b => b.toString(16).padStart(2, '0')).
-        join('');
+    return Array.from(new Uint8Array(hashBuf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
   }
 }

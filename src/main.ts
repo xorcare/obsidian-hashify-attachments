@@ -13,31 +13,34 @@ import {
   FuzzySuggestModal,
   App,
   getLanguage,
-} from 'obsidian';
-import {translate} from './lang';
-import {HashKind} from './hash.kind';
-import {HashifyController} from './hashify.controller';
-import {VaultNotesRepository} from './notes.repository';
-import {RenameCommandHandler} from './rename.command.handler';
-import {NotifyCommandHandler} from './notify.command.handler';
-import {CommandKind} from './command.kind';
-import {CommandDispatcher} from './command.dispatcher';
+} from "obsidian";
+import { translate } from "./lang";
+import { HashKind } from "./hash.kind";
+import { HashifyController } from "./hashify.controller";
+import { VaultNotesRepository } from "./notes.repository";
+import { RenameCommandHandler } from "./rename.command.handler";
+import { NotifyCommandHandler } from "./notify.command.handler";
+import { CommandKind } from "./command.kind";
+import { CommandDispatcher } from "./command.dispatcher";
 
 interface HashifySettings {
   hashAlgo: string;
 }
 
-const DEFAULT_SETTINGS: HashifySettings = {hashAlgo: 'sha512'};
+const DEFAULT_SETTINGS: HashifySettings = { hashAlgo: "sha512" };
 
 const HASH_OPTIONS = [
-  {label: 'SHA-1', value: 'sha1'},
-  {label: 'SHA-256', value: 'sha256'},
-  {label: 'SHA-384', value: 'sha384'},
-  {label: 'SHA-512', value: 'sha512'},
+  { label: "SHA-1", value: "sha1" },
+  { label: "SHA-256", value: "sha256" },
+  { label: "SHA-384", value: "sha384" },
+  { label: "SHA-512", value: "sha512" },
 ] as const;
 
 class FolderSuggestModal extends FuzzySuggestModal<TFolder> {
-  constructor(app: App, private onChooseFolder: (folder: TFolder) => void) {
+  constructor(
+    app: App,
+    private onChooseFolder: (folder: TFolder) => void,
+  ) {
     super(app);
   }
 
@@ -45,14 +48,14 @@ class FolderSuggestModal extends FuzzySuggestModal<TFolder> {
     const result: TFolder[] = [];
     const crawl = (folder: TFolder) => {
       result.push(folder);
-      folder.children.forEach(ch => ch instanceof TFolder && crawl(ch));
+      folder.children.forEach((ch) => ch instanceof TFolder && crawl(ch));
     };
     crawl(this.app.vault.getRoot());
     return result;
   }
 
   getItemText(item: TFolder) {
-    return item.path || '/';
+    return item.path || "/";
   }
 
   onChooseItem(item: TFolder) {
@@ -62,108 +65,111 @@ class FolderSuggestModal extends FuzzySuggestModal<TFolder> {
 
 class HashifySettingTab extends PluginSettingTab {
   constructor(
-      app: App,
-      private plugin: HashifyFilesPlugin,
+    app: App,
+    private plugin: HashifyFilesPlugin,
   ) {
     super(app, plugin);
   }
 
   display(): void {
-    const {containerEl} = this;
+    const { containerEl } = this;
     const plugin: HashifyFilesPlugin = this.plugin;
 
     containerEl.empty();
-    containerEl.createEl('h2',
-        {text: translate(plugin.locale, 'settings.title')});
-    new Setting(containerEl).setName(
-        translate(plugin.locale, 'settings.hash_algo')).
-        setDesc(translate(plugin.locale, 'settings.hash_algo_desc')).
-        addDropdown(dd => {
-          HASH_OPTIONS.forEach(({label, value}) => {
-            dd.addOption(value, label);
-          });
-          dd.setValue(plugin.settings.hashAlgo).onChange(async val => {
-            plugin.settings.hashAlgo = val;
-            await plugin.saveSettings();
-          });
+    containerEl.createEl("h2", { text: translate(plugin.locale, "settings.title") });
+    new Setting(containerEl)
+      .setName(translate(plugin.locale, "settings.hash_algo"))
+      .setDesc(translate(plugin.locale, "settings.hash_algo_desc"))
+      .addDropdown((dd) => {
+        HASH_OPTIONS.forEach(({ label, value }) => {
+          dd.addOption(value, label);
         });
+        dd.setValue(plugin.settings.hashAlgo).onChange(async (val) => {
+          plugin.settings.hashAlgo = val;
+          await plugin.saveSettings();
+        });
+      });
   }
 }
 
 export default class HashifyFilesPlugin extends Plugin {
-  settings: HashifySettings = {...DEFAULT_SETTINGS};
+  settings: HashifySettings = { ...DEFAULT_SETTINGS };
 
   get locale(): string {
-    return getLanguage().split('-')[0];
+    return getLanguage().split("-")[0];
   }
 
   async onload() {
     await this.loadSettings();
-    this.registerCommand('rename-attached-files',
-        'command.rename-attached-files.name',
-        async () => {
-          const folderPath = await this.pickFolder();
-          if (folderPath) {
-            await this.runHashify(folderPath);
-            new Notice(translate(this.locale, 'notice.renamedAttached'));
-          }
-        });
+    this.registerCommand(
+      "rename-attached-files",
+      "command.rename-attached-files.name",
+      async () => {
+        const folderPath = await this.pickFolder();
+        if (folderPath) {
+          await this.runHashify(folderPath);
+          new Notice(translate(this.locale, "notice.renamedAttached"));
+        }
+      },
+    );
 
-    this.registerCommand('rename-all-files',
-        'command.rename-all-files.name',
-        async () => {
-          const rootFolder = this.app.vault.getRoot?.();
-          if (rootFolder instanceof TFolder) {
-            await this.runHashify(rootFolder.path);
-            new Notice(translate(this.locale, 'notice.renamedAll'));
-          } else {
-            new Notice(translate(this.locale, 'error.noRootFound'));
-          }
-        });
+    this.registerCommand("rename-all-files", "command.rename-all-files.name", async () => {
+      const rootFolder = this.app.vault.getRoot?.();
+      if (rootFolder instanceof TFolder) {
+        await this.runHashify(rootFolder.path);
+        new Notice(translate(this.locale, "notice.renamedAll"));
+      } else {
+        new Notice(translate(this.locale, "error.noRootFound"));
+      }
+    });
 
     this.registerEvent(
-        this.app.workspace.on('file-menu', (menu, file) => {
-          menu.addSeparator();
-          menu.addItem((item) => {
-            item.setIcon('plug').setDisabled(true).setTitle(this.manifest?.name ?? 'Hashify');
-          });
+      this.app.workspace.on("file-menu", (menu, file) => {
+        menu.addSeparator();
+        menu.addItem((item) => {
+          item
+            .setIcon("plug")
+            .setDisabled(true)
+            .setTitle(this.manifest?.name ?? "Hashify");
+        });
 
-          if (file instanceof TFolder) {
-            menu.addItem((item) => {
-              const title = translate(this.locale, 'command.rename-folder.name');
-              item.setTitle(title).
-                  setIcon('folder').
-                  onClick(async () => {
-                    try {
-                      await this.runHashify(file.path);
-                    } catch (e) {
-                      console.error(e);
-                    }
-                  });
-            });
-          } else {
-            menu.addItem((item) => {
-              const title = translate(this.locale, 'command.rename-file.name');
-              item.setTitle(title).
-                  setIcon('document').
-                  onClick(async () => {
-                    try {
-                      await this.runHashify(file.path);
-                    } catch (e) {
-                      console.error(e);
-                    }
-                  });
-            });
-          }
-        }),
+        if (file instanceof TFolder) {
+          menu.addItem((item) => {
+            const title = translate(this.locale, "command.rename-folder.name");
+            item
+              .setTitle(title)
+              .setIcon("folder")
+              .onClick(async () => {
+                try {
+                  await this.runHashify(file.path);
+                } catch (e) {
+                  console.error(e);
+                }
+              });
+          });
+        } else {
+          menu.addItem((item) => {
+            const title = translate(this.locale, "command.rename-file.name");
+            item
+              .setTitle(title)
+              .setIcon("document")
+              .onClick(async () => {
+                try {
+                  await this.runHashify(file.path);
+                } catch (e) {
+                  console.error(e);
+                }
+              });
+          });
+        }
+      }),
     );
 
     this.addSettingTab(new HashifySettingTab(this.app, this));
   }
 
-  private registerCommand(
-      id: string, nameKey: string, callback: () => Promise<void>) {
-    this.addCommand({id, name: translate(this.locale, nameKey), callback});
+  private registerCommand(id: string, nameKey: string, callback: () => Promise<void>) {
+    this.addCommand({ id, name: translate(this.locale, nameKey), callback });
   }
 
   async loadSettings() {
@@ -179,21 +185,23 @@ export default class HashifyFilesPlugin extends Plugin {
   }
 
   async pickFolder(): Promise<string | null> {
-    return new Promise(resolve => {
-      new FolderSuggestModal(this.app, f => resolve(f.path)).open();
+    return new Promise((resolve) => {
+      new FolderSuggestModal(this.app, (f) => resolve(f.path)).open();
     });
   }
 
   private async runHashify(fileOrFolderPath: string) {
     const repo = new VaultNotesRepository(
-        this.app.vault,
-        HashKind[this.settings.hashAlgo as keyof typeof HashKind],
+      this.app.vault,
+      HashKind[this.settings.hashAlgo as keyof typeof HashKind],
     );
 
     const dispatcher = new CommandDispatcher();
     dispatcher.RegisterHandler(CommandKind.rename, new RenameCommandHandler(this.app));
-    dispatcher.RegisterHandler(CommandKind.notify,
-        new NotifyCommandHandler(this.locale, translate));
+    dispatcher.RegisterHandler(
+      CommandKind.notify,
+      new NotifyCommandHandler(this.locale, translate),
+    );
 
     await new HashifyController(repo, dispatcher).Hashify(normalizePath(fileOrFolderPath));
   }

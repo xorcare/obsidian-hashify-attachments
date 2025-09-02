@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import en from './dictionary/en';
-import ru from './dictionary/ru';
+import en from "./dictionary/en";
+import ru from "./dictionary/ru";
 
 const translations: Record<string, Record<string, string>> = { en, ru };
 
@@ -14,13 +14,13 @@ function interpolate(template: string, values?: Record<string, unknown>): string
 
   const toSafeString = (v: unknown): string => {
     if (
-        v === null ||
-        v === undefined ||
-        typeof v === 'string' ||
-        typeof v === 'number' ||
-        typeof v === 'boolean' ||
-        typeof v === 'bigint' ||
-        typeof v === 'symbol'
+      v === null ||
+      v === undefined ||
+      typeof v === "string" ||
+      typeof v === "number" ||
+      typeof v === "boolean" ||
+      typeof v === "bigint" ||
+      typeof v === "symbol"
     ) {
       return String(v);
     }
@@ -29,17 +29,17 @@ function interpolate(template: string, values?: Record<string, unknown>): string
   };
 
   return template.replace(/{{\s*([\w.[\]]+)\s*}}/g, (_, path: string) => {
-    const parts = path.split('.');
+    const parts = path.split(".");
     let cur: unknown = values; // was: any
     for (const p of parts) {
-      if (cur && typeof cur === 'object' && p in (cur as Record<string, unknown>)) {
+      if (cur && typeof cur === "object" && p in (cur as Record<string, unknown>)) {
         cur = (cur as Record<string, unknown>)[p as keyof typeof cur];
       } else {
         cur = undefined;
         break;
       }
     }
-    const val = cur ?? '';
+    const val = cur ?? "";
     return toSafeString(val);
   });
 }
@@ -52,9 +52,6 @@ function interpolate(template: string, values?: Record<string, unknown>): string
  * @returns localized string or key itself if not found
  */
 export function translate(language: string, key: string, values?: Record<string, unknown>): string {
-  const msg =
-      translations[language]?.[key] ||
-      translations['en']?.[key] ||
-      key; // Fallback to en and then to the key itself
+  const msg = translations[language]?.[key] || translations["en"]?.[key] || key; // Fallback to en and then to the key itself
   return interpolate(msg, values); // Insert interpolated values
 }

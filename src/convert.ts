@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {Pair} from './pair';
-import {Command} from './command';
-import {CommandKind} from './command.kind';
+import { Pair } from "./pair";
+import { Command } from "./command";
+import { CommandKind } from "./command.kind";
 
 export function Convert(pairs: Pair[]): Command[] {
   const commands: Command[] = [];
@@ -14,7 +14,7 @@ export function Convert(pairs: Pair[]): Command[] {
     const tgt = pair.TargetFile();
 
     // Only attached files need to be renamed, files with the extension 'md' are not attached.
-    if (src.Extension().toLowerCase() === 'md') {
+    if (src.Extension().toLowerCase() === "md") {
       continue;
     }
 

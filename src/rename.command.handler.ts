@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {App, TFile} from 'obsidian';
-import {CommandHandler} from './command.handler';
-import {Command} from './command';
+import { App, TFile } from "obsidian";
+import { CommandHandler } from "./command.handler";
+import { Command } from "./command";
 
 export class RenameCommandHandler implements CommandHandler {
   private app: App;

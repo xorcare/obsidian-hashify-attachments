@@ -32,7 +32,7 @@ Thank you for your support!
 2. **Rename files:**  
    Use the command palette or plugin menu to:
     - Rename all attachments in a folder of your choice (recursively).
-    - Rename all attachments in the vault  (except `.md` files).
+    - Rename all attachments in the vault (except `.md` files).
 3. **Internal links update:**  
    After renaming, all internal links in your markdown notes to these files are updated automatically.
 

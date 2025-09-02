@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {HashKind} from './hash.kind';
+import { HashKind } from "./hash.kind";
 
 export class File {
   private readonly path: string;
@@ -35,12 +35,12 @@ export class File {
   }
 
   Extension(): string {
-    const parts = this.path.split('.');
-    return parts.length > 1 ? parts.pop()!.toLowerCase() : '';
+    const parts = this.path.split(".");
+    return parts.length > 1 ? parts.pop()!.toLowerCase() : "";
   }
 
   Filename(): string {
-    return this.path.split('/').pop() || this.path;
+    return this.path.split("/").pop() || this.path;
   }
 
   TargetFilename(): string {
@@ -48,10 +48,8 @@ export class File {
   }
 
   TargetPath(): string {
-    const parts = this.path.split('/');
+    const parts = this.path.split("/");
     parts.pop();
-    return parts.length ?
-        `${parts.join('/')}/${this.TargetFilename()}` :
-        this.TargetFilename();
+    return parts.length ? `${parts.join("/")}/${this.TargetFilename()}` : this.TargetFilename();
   }
 }

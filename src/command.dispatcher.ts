@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {CommandHandler} from './command.handler';
-import {Command} from './command';
-import {CommandKind} from './command.kind';
+import { CommandHandler } from "./command.handler";
+import { Command } from "./command";
+import { CommandKind } from "./command.kind";
 
 export class CommandDispatcher {
   private handlers: Map<CommandKind, CommandHandler> = new Map();

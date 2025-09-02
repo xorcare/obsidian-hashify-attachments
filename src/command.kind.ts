@@ -4,6 +4,6 @@
  ***********************************************/
 
 export enum CommandKind {
-  rename = 'rename',
-  notify = 'notify'
+  rename = "rename",
+  notify = "notify",
 }

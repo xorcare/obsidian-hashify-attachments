@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  ***********************************************/
 
-import {File} from './file';
+import { File } from "./file";
 
 export class Pair {
   private readonly sourceFile: File;
