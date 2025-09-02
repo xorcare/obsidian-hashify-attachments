@@ -11,6 +11,23 @@ const translations: Record<string, Record<string, string>> = { en, ru };
 // Simple {{var}} interpolation with default behavior (no escaping by default)
 function interpolate(template: string, values?: Record<string, unknown>): string {
   if (!values) return template;
+
+  const toSafeString = (v: unknown): string => {
+    if (
+        v === null ||
+        v === undefined ||
+        typeof v === 'string' ||
+        typeof v === 'number' ||
+        typeof v === 'boolean' ||
+        typeof v === 'bigint' ||
+        typeof v === 'symbol'
+    ) {
+      return String(v);
+    }
+
+    return typeof v;
+  };
+
   return template.replace(/{{\s*([\w.[\]]+)\s*}}/g, (_, path: string) => {
     const parts = path.split('.');
     let cur: unknown = values; // was: any
@@ -23,7 +40,7 @@ function interpolate(template: string, values?: Record<string, unknown>): string
       }
     }
     const val = cur ?? '';
-    return String(val);
+    return toSafeString(val);
   });
 }
 

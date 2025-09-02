@@ -79,7 +79,9 @@ class HashifySettingTab extends PluginSettingTab {
         translate(plugin.locale, 'settings.hash_algo')).
         setDesc(translate(plugin.locale, 'settings.hash_algo_desc')).
         addDropdown(dd => {
-          HASH_OPTIONS.forEach(opt => dd.addOption(opt.value, opt.label));
+          HASH_OPTIONS.forEach(({label, value}) => {
+            dd.addOption(value, label);
+          });
           dd.setValue(plugin.settings.hashAlgo).onChange(async val => {
             plugin.settings.hashAlgo = val;
             await plugin.saveSettings();
@@ -165,7 +167,11 @@ export default class HashifyFilesPlugin extends Plugin {
   }
 
   async loadSettings() {
-    this.settings = {...DEFAULT_SETTINGS, ...(await this.loadData() ?? {})};
+    const raw = (await this.loadData()) as Partial<HashifySettings> | undefined;
+    this.settings = {
+      ...DEFAULT_SETTINGS,
+      ...(raw ?? {}),
+    } satisfies HashifySettings as HashifySettings;
   }
 
   async saveSettings() {

@@ -20,7 +20,7 @@ export class NotifyCommandHandler implements CommandHandler {
     this.translate = translate;
   }
 
-  async Handle(command: Command): Promise<void> {
+  Handle(command: Command): Promise<void> {
     const title = this.translate(this.locale, 'error.hash_mismatch.title');
     const body = this.translate(this.locale, 'error.hash_mismatch.body', {
       source: command.File().Path(),

@@ -74,7 +74,8 @@ describe('translate', () => {
     expect(translate('en', 'countLine', { count: 0 })).toBe('Count: 0');
     expect(translate('en', 'countLine', { count: 42 })).toBe('Count: 42');
     expect(translate('en', 'countLine', { count: null })).toBe('Count: ');
-    expect(translate('en', 'countLine', { count: { toString: () => 'X' } })).toBe('Count: X');
+    expect(translate('en', 'countLine', { count: {} })).toBe('Count: object');
+    expect(translate('en', 'countLine', { count: { toString: () => 'X' } })).toBe('Count: object');
   });
 
   it('works with multiple levels of nesting in dotted paths', () => {

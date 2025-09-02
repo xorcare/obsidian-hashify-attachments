@@ -1,10 +1,22 @@
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import eslintJS from '@eslint/js';
+import eslintTS from 'typescript-eslint';
 import licenseHeader from 'eslint-plugin-license-header';
 
 export default [
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  eslintJS.configs.recommended,
+
+  ...eslintTS.config({
+    files: ['**/*.{ts,tsx,mts,cts}'],
+    extends: [
+      ...eslintTS.configs.recommendedTypeChecked,
+    ],
+    languageOptions: {
+      parserOptions: {
+        projectService:true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  }),
 
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
