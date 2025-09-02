@@ -21,7 +21,6 @@ export default [
     files: ["**/*.{js,mjs,cjs,ts}"],
     rules: {
       semi: ["error", "always"],
-      quotes: ["error", "single"],
       "linebreak-style": ["error", "unix"],
       "no-trailing-spaces": "error",
       "@typescript-eslint/no-var-requires": "off",
