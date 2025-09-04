@@ -10,7 +10,9 @@
     "test": "jest",
     "lint": "eslint . && node versions.check.mjs",
     "lint:fix": "eslint . --fix && node versions.check.mjs",
-    "version": "node versions.bump.mjs"
+    "preversion": "git diff --quiet --exit-code",
+    "version": "node versions.bump.mjs && node versions.check.mjs && git commit -a -m \"chore(release): $(npm pkg get version | tr -d '\"')\"",
+    "postversion": "git push origin HEAD:release-$(npm pkg get version | tr -d '\"')"
   },
   "keywords": [
     "obsidian-plugin",
