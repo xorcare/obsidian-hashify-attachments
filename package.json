@@ -36,7 +36,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-license-header": "^0.8.0",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "jest": "^30.2.0",
     "obsidian": "^1.10.2",
     "prettier": "3.6.2",
