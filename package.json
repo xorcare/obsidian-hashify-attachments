@@ -38,7 +38,7 @@
     "eslint-plugin-license-header": "^0.9.0",
     "globals": "^17.13.0",
     "jest": "^30.5.2",
-    "obsidian": "^1.13.1",
+    "obsidian": "^1.14.4",
     "prettier": "3.9.9",
     "ts-jest": "^29.4.14",
     "typescript": "^5.9.3",
